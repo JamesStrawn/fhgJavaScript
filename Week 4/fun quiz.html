@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fun Quiz</title>
+  </head>
+  <body>
+    <h1>Fun Quiz</h1>
+    <p>Test your knowledge with this quick quiz!</p>
+
+    <button onclick="startQuiz()">Start Quiz</button>
+
+    <div id="quiz" style="display: none">
+      <h2>Question 1:</h2>
+      <p>What is the capital of France?</p>
+      <input type="text" id="answer1" />
+      <button onclick="checkAnswer('answer1', 'Paris')">Submit</button>
+      <p id="result1"></p>
+
+      <h2>Question 2:</h2>
+      <p>How many continents are there?</p>
+      <input type="text" id="answer2" />
+      <button onclick="checkAnswer('answer2', '7')">Submit</button>
+      <p id="result2"></p>
+    </div>
+
+    <p id="score" style="display: none">
+      Your score: <span id="scoreValue">0</span>
+    </p>
+
+    <script>
+      let currentQuestion = 1;
+      let score = 0;
+
+      function startQuiz() {
+        document.getElementById("quiz").style.display = "block";
+        document.getElementById("score").style.display = "none";
+      }
+
+      function checkAnswer(inputId, correctAnswer) {
+        const userAnswer = document.getElementById(inputId).value;
+        const resultElement = document.getElementById(
+          "result" + currentQuestion
+        );
+
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+          resultElement.textContent = "Correct!";
+          score++;
+        } else {
+          resultElement.textContent =
+            "Incorrect. The correct answer is " + correctAnswer + ".";
+        }
+
+        currentQuestion++;
+
+        if (currentQuestion <= 2) {
+          document.getElementById("answer" + currentQuestion).focus();
+        } else {
+          finishQuiz();
+        }
+      }
+
+      function finishQuiz() {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("score").style.display = "block";
+
+        document.getElementById("scoreValue").textContent = score + " out of 2";
+      }
+    </script>
+  </body>
+</html>

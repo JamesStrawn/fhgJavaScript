@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculator</title>
+  </head>
+  <body>
+    <h1>Calculator</h1>
+ 
+      <p>Enter a number to square:</p>
+      <input type="text" id="squareEntry" />
+      <button onclick="calcSquareAndDisplayResult('squareEntry', 'squareResult')">Calc</button>
+      <p id="squareResult"></p>
+    </div>
+
+    <script>
+      /*
+        Write a function called squareNumber that will 
+        take one argument (a number), square that number,
+        and return the result. It should also log a string 
+        like "The result of squaring the number 3 is 9."
+    */
+      function squareNumber(num) {
+        const result = num * num;
+        console.log(`The result of squaring the number ${num} is ${result}.`);
+        return result;
+      }
+
+      function calcSquareAndDisplayResult(inputId, outputId) {
+        const userAnswer = document.getElementById(inputId).value;
+        const resultElement = document.getElementById(outputId);
+        resultElement.textContent = squareNumber(userAnswer);
+      }
+    </script>
+  </body>
+</html>
