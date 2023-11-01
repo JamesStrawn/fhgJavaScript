@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PNG Project</title>
+  </head>
+  <body>
+    <script>
+      // This function prints all the odd
+      // numbers between 3 and 53 using
+      // recursion
+      function printOdds(start, end) {
+        if (start % 2 !== 0) {
+          // Write the output to the console
+          console.log(start);
+
+          // Write the output to the document with a break tag.
+          // This is new to us! Give it a shot and you can see the output
+          // right in the browser window, rather than having to open the
+          // console. What happens if you don't include the <br> tag?
+          document.write(start + "<br>");
+        }
+
+        // Check if the start number is less than the end number.
+        // If we don't do this, the function will run forever.
+        // That would be an infinite loop (which we talked about in class).
+        if (start < end) {
+          // Call the function again with the next number
+          printOdds(start + 1, end);
+        }
+      }
+
+      // The function declaration above just defines the function, it doesn't
+      // actually run it. In order to execute the function, we need to call it
+      // as follows:
+      printOddNumbers(3, 53);
+    </script>
+  </body>
+</html>

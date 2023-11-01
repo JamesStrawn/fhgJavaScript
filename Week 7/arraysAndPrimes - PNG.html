@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prime Number Generator</title>
+  </head>
+  <body>
+    <h1>Prime Number Generator</h1>
+    <script>
+
+      function findPrimes() {
+
+        let i = 3;
+        while (true){
+          if (isNumberPrime(i)) {
+            // remove the contents of the document, replace it with the prime number
+            // document.body.innerHTML = i;   
+            console.log(i);         
+          }
+          i += 2;
+        }
+      }
+
+      function isNumberPrime(numberToTest) {
+
+        // First, if it's divisible by 2, it's not.
+        if (0 === numberToTest % 2) return false;
+        if (3 === numberToTest) return true;
+
+        let i = 3;
+        while (true) {
+          if (0 === numberToTest % i) {
+            return false;
+          }
+          if (numberToTest / i < i) {
+            break;
+          }
+          i = i + 2;
+        }
+
+        // Iterate over odd numbers, checking if each is a factor, until we get to the square root of the numberToTest
+        // for (let i = 3; i <= Math.sqrt(numberToTest); i = i + 2) {
+        //   if (0 === numberToTest % i) {
+        //     return false;
+        //   }
+        // }
+
+        return true;
+      }
+
+      // Execute the function
+      findPrimes();
+    </script>
+  </body>
+</html>

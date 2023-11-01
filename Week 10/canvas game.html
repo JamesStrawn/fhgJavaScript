@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas Game</title>
+        <style>
+            canvas {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <script>
+            // Get the canvas element and context
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            // Set up the player object
+            const player = {
+                x: canvas.width / 2,
+                y: canvas.height - 50,
+                width: 20,
+                height: 20,
+                speed: 5,
+            };
+
+            // Set up the falling objects
+            const objects = [];
+            const objectSpeed = 3;
+            const objectWidth = 20;
+            const objectHeight = 20;
+            const objectFrequency = 1000; // Add a new object every 1000ms
+            let lastObjectTime = 0;
+
+            // Handle keyboard input
+            document.addEventListener("keydown", (event) => {
+                if (event.code === "ArrowLeft") {
+                    player.x -= player.speed;
+                } else if (event.code === "ArrowRight") {
+                    player.x += player.speed;
+                }
+            });
+
+            // Update the game state
+            function update() {
+                // Move the falling objects
+                for (let i = 0; i < objects.length; i++) {
+                    objects[i].y += objectSpeed;
+                }
+
+                // Add a new object if it's time
+                const currentTime = Date.now();
+                if (currentTime - lastObjectTime > objectFrequency) {
+                    objects.push({
+                        x: Math.random() * (canvas.width - objectWidth),
+                        y: -objectHeight,
+                        width: objectWidth,
+                        height: objectHeight,
+                    });
+                    lastObjectTime = currentTime;
+                }
+
+                // Check for collisions
+                for (let i = 0; i < objects.length; i++) {
+                    const object = objects[i];
+                    if (
+                        player.x < object.x + object.width &&
+                        player.x + player.width > object.x &&
+                        player.y < object.y + object.height &&
+                        player.y + player.height > object.y
+                    ) {
+                        alert("Game over!");
+                        location.reload();
+                    }
+                }
+            }
+
+            // Draw the game
+            function draw() {
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw the player
+                ctx.fillStyle = "blue";
+                ctx.fillRect(player.x, player.y, player.width, player.height);
+
+                // Draw the falling objects
+                ctx.fillStyle = "red";
+                for (let i = 0; i < objects.length; i++) {
+                    const object = objects[i];
+                    ctx.fillRect(object.x, object.y, object.width, object.height);
+                }
+            }
+
+            // Game loop
+            function loop() {
+                update();
+                draw();
+                requestAnimationFrame(loop);
+            }
+
+            // Start the game loop
+            loop();
+        </script>
+    </body>
+</html>

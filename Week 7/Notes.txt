@@ -1,0 +1,9 @@
+start: 3
+end: 53
+
+numberToCheck: 5
+
+isPrime: true
+
+j: 2
+currentPrime: 5

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Advanced Canvas</title>
+    <style>
+      canvas {
+        border: 1px solid rgb(43, 0, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      // Get the canvas element and context
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the player
+      ctx.fillStyle = "blue";
+      ctx.fillRect(50, 50, 10, 20);
+
+      // draw a random red box on the canvas
+      ctx.fillStyle = "red";
+      ctx.fillRect(Math.random() * 400, Math.random() * 400, 10, 10);
+
+      // add an event listener for the mouse click that draws a random green box
+      // at the location of the mouse click
+      canvas.addEventListener("click", (event) => {
+        ctx.fillStyle = "green";
+        ctx.fillRect(event.offsetX, event.offsetY, 10, 10);
+      });
+
+      // When the user clicks the right mouse button, draw a yellow circle
+      canvas.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        ctx.fillStyle = "yellow";
+        ctx.beginPath();
+        ctx.arc(event.offsetX, event.offsetY, 10, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+
+      // When the user clicks and drags, draw a purple line where the mouse goes
+      let isMouseDown = false;
+      canvas.addEventListener("mousedown", (event) => {
+        isMouseDown = true;
+      });
+      canvas.addEventListener("mouseup", (event) => {
+        isMouseDown = false;
+      });
+      canvas.addEventListener("mousemove", (event) => {
+        if (isMouseDown) {
+          ctx.strokeStyle = "purple";
+          ctx.lineWidth = 5;
+          ctx.lineTo(event.offsetX, event.offsetY);
+          ctx.stroke();
+        }
+      });
+    </script>
+  </body>
+</html>

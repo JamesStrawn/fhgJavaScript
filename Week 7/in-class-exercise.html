@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flow of Control</title>
+  </head>
+  <body>
+    <script>
+      // First, write the current date and time to the document
+      document.write(new Date() + "<br><br>");
+
+      // This function prints all the odd numbers
+      // between start and end using a loop
+      function printOdds(start, end) {
+        // The for loop executes a block of code a certain number of times.
+        // In this example, the variable "i" starts at the value of "start".
+        // Every time the loop executes, we add 1 to the value of i and run
+        // it again. The loop stops when i is greater than the value of "end".
+        for (let i = start; i <= end; i = i + 1) {
+          if (i % 2 !== 0) {
+            document.write(i + "<br>");
+          }
+        }
+      }
+
+      printOdds(3, 53);
+
+      const firstPrimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 
+        31, 37, 41, 43, 47, 53];
+
+      document.write(firstPrimes + "<br>");
+      for (let j = 0; j < firstPrimes.length; j = j + 1) {
+        document.write(firstPrimes[j] + "<br>");
+      }
+
+
+      function primeFinder(start, end) {
+        for (let i = start; i <= end; i = i + 1) {
+
+          // iterate over the prime array
+          for (let j = 0; j < firstPrimes.length; j = j + 1) {
+
+            // if the current number is divisible by any of the primes
+            // in the array, it's not prime
+            
+            // Students, fill in the blank
+          }
+          if (i % 2 !== 0) {
+            document.write(i + "<br>");
+          }
+        }
+      }
+
+
+      
+    </script>
+  </body>
+</html>

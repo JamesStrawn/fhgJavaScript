@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Arrays And Primes</title>
+  </head>
+  <body>
+    <h1>Arrays and Primes!</h1>
+    <script>
+      // First, write the current date and time to the document, so we can see when the refresh happens
+      document.write(new Date() + "<br><br>");
+
+      const firstPrimes = [
+        2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
+      ];
+
+      function printPrimes(start, end) {
+        // For each number from start to end...
+        for (let numberToCheck = start; numberToCheck <= end; numberToCheck = numberToCheck + 1) {
+          // Assume it's prime, but if it's evenly divisible by any of our primes, set this to false.
+          let isPrime = true;
+
+          // Check to see if it's prime. If it's evenly divisible by any of the
+          // numbers in the firstPrimes array, it's not prime. But, if we get to
+          // the end of our prime array, then it IS prime, so print it.
+          for (let j = 0; j < firstPrimes.length; j = j + 1) {
+            let currentPrime = firstPrimes[j];
+
+            // Only check the currentPrime if it's less than the numberToCheck
+            if (currentPrime < numberToCheck) {
+              // Students, write code after each of the following comments to complete this function
+
+              // Write an "if" statement using the % operator to see if the numberToCheck is evenly
+              // divisible by the currentPrime
+              if (numberToCheck % currentPrime === 0) {
+                // Set isPrime to false
+                isPrime = false;
+              }
+            }
+          }
+
+          // If isPrime is still true, print the number using document.write
+          if (isPrime === true) {
+              document.write(numberToCheck);
+              document.write(isNumberPrime(numberToCheck) ? " is a prime" : " is NOT prime");
+              document.write("<br>");
+          }
+        }
+      }
+
+      function isNumberPrime(numberToTest) {
+
+        // First, if it's divisible by 2, it's not.
+        if (0 === numberToTest % 2) return false;
+        if (3 === numberToTest) return true;
+
+        let i = 3;
+        while (true) {
+          if (0 === numberToTest % i) {
+            return false;
+          }
+          if (numberToTest / i < i) {
+            break;
+          }
+          i = i + 2;
+        }
+
+        // Iterate over odd numbers, checking if each is a factor, until we get to the square root of the numberToTest
+        // for (let i = 3; i <= Math.sqrt(numberToTest); i = i + 2) {
+        //   if (0 === numberToTest % i) {
+        //     return false;
+        //   }
+        // }
+
+        return true;
+      }
+
+      // Execute the function
+      printPrimes(3, 50003);
+    </script>
+  </body>
+</html>
