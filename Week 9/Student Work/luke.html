@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Beginner Canvas</title>
+    <style>
+      canvas {
+        border: 1px solid rgb(10, 9, 9);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="1200" height="500"></canvas>
+    <script>
+      // Get the canvas element and context
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Draw the a blue rectangle
+
+      ctx.fillStyle = "blue";
+      ctx.fillRect(700, 110, 20, 15); 
+      
+      ctx.fillStyle = "blue";
+      ctx.fillRect(500, 90, 20, 20);  
+
+      ctx.fillStyle = "blue";
+      ctx.fillRect(500, 300, 200, 10);  
+
+      ctx.fillStyle = "red";
+      ctx.fillRect(610, 170, 10, 20); 
+      
+      ctx.fillStyle = "green";
+      ctx.fillRect(520, 210, 200, 10);
+      
+      ctx.fillStyle = "green";
+      ctx.fillRect(720, 170, 10, 50); 
+      
+      ctx.fillStyle = "green";
+      ctx.fillRect(680, 170, 40, 10); 
+
+      ctx.fillStyle = "green";
+      ctx.fillRect(680, 170, 10, 30);
+      
+      ctx.fillStyle = "green";
+      ctx.fillRect(520, 170, 10, 50); 
+
+      ctx.fillStyle = "green";
+      ctx.fillRect(520, 170, 40, 10);
+      
+      ctx.fillStyle = "green";
+      ctx.fillRect(560, 170, 10, 30); 
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(450, 60, 360, 10); 
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(440, 60, 10, 320);
+      
+      ctx.fillStyle = "black";
+      ctx.fillRect(450, 370, 360, 10); 
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(800, 60, 10, 320);
+
+    </script>
+  </body>
+</html>
