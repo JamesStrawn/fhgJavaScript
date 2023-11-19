@@ -32,6 +32,18 @@
             }
 
             console.log(grid);
+
+            let grid2 = [];
+            // You can assign values to a specific index.
+            // Here, we create an array at index 3.
+            grid2[3] = [];
+            // Within that array, we set the value at index 3 to true.
+            grid2[3][3] = true;
+            console.log(grid2);
+
+            // However, this will produce an error. You can't reference
+            // it before we've assigned it
+            console.log(grid2[4][1]);
         </script>
     </body>
 </html>
