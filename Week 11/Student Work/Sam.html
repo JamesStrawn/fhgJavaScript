@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game of Life - Phase 1 - The Grid</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+        background-color: rgb(153, 160, 207);
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+    <script>
+      // Get the canvas element and context
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // start coding here...
+
+      // Initialize cells
+      const cells = [];
+      const columns = 100;
+      const rows = 100;
+      for (let x = 0; x < columns + 1; x++) {
+        cells[x] = [];
+        for (let y = 0; y < rows + 1; y++) {
+          cells[x][y] = Math.random() > 0.8 ? false : true;
+          // cells [x][y] = true;
+        }
+      }
+
+      // Initialize new cells
+      const newCells = [];
+      const newColumns = columns;
+      const newRows = rows;
+      for (let x = 0; x < newColumns + 1; x++) {
+        newCells[x] = [];
+        for (let y = 0; y < newRows + 1; y++) {
+          newCells[x][y] = false;
+        }
+      }
+
+      function drawGrid() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw cells
+        const cellWidth = canvas.width / columns;
+        const cellHeight = canvas.height / rows;
+        for (let x = 0; x < columns; x++) {
+          for (let y = 0; y < rows; y++) {
+            ctx.fillStyle = cells[x][y] ? "black" : "white";
+            ctx.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+          }
+        }
+      }
+
+      function isAlive(y, x) {
+        try {
+          if (cells[y][x] === true) {
+            return true;
+          } else return false;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      function updateGrid() {
+        console.log("Grid Updating");
+        for (let x = 0; x < columns; x++) {
+          for (let y = 0; y < rows; y++) {
+            let neighbors = 0;
+
+            // Count neighbors
+            if (isAlive(y, x - 1)) {
+              neighbors++;
+            }
+
+            if (isAlive(y - 1, x)) {
+              neighbors++;
+            }
+            if (isAlive(y, x + 1)) {
+              neighbors++;
+            }
+            if (isAlive(y + 1, x)) {
+              neighbors++;
+            }
+
+            // Apply rules
+            if (isAlive(y, x) && (neighbors < 2 || neighbors > 3)) {
+              newCells[y][x] = false;
+            } else if (!isAlive(y, x) && neighbors === 3) {
+              newCells[y][x] = true;
+            }
+          }
+        }
+
+        for (let x = 0; x < columns; x++) {
+          for (let y = 0; y < rows; y++) {
+            cells[x][y] = newCells[x][y];
+          }
+        }
+        drawGrid();
+        console.table(cells);
+      }
+
+      drawGrid();
+      console.table(cells);
+
+      canvas.addEventListener("contextmenu", (event) => {
+        event.preventDefault(); // Prevents right click menu from appearing
+        updateGrid();
+      });
+
+      var posX;
+      var posY;
+      // Draws on grid
+      canvas.addEventListener("click", function (e) {
+        posX = e.x;
+        posY = e.y;
+        console.log(posX + ", " + posY);
+        cells[Math.floor(posX / 10)][Math.floor(posY / 10)] = true;
+        drawGrid();
+      });
+    </script>
+  </body>
+</html>
