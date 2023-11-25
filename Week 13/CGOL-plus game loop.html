@@ -10,6 +10,10 @@
     </style>
   </head>
   <body>
+    <button id="next" onclick="AdvanceGeneration();">Next Generation</button>
+    <button id="toggle" onclick="ToggleRunning();">Toggle Game Loop</button>
+    
+    <br>
     <canvas id="canvas" width="800" height="800"></canvas>
     <script>
       // Get the canvas element and context
@@ -111,56 +115,27 @@
         return newGrid;
       }
 
-      // If the user right-clicks, just iterate once
-      Canvas.addEventListener("contextmenu", (event) => {
-        if (_isRunning) return;
-
-        event.preventDefault(); // Prevents right click menu from appearing
+      // Advance the generation one time
+      function AdvanceGeneration() {
         _grid = nextGeneration();
         drawGrid(_grid);
-      });
+      }
 
       function gameLoop() {
         if (_isRunning) {
-          _grid = nextGeneration();
-          drawGrid(_grid);
+          AdvanceGeneration();
           setTimeout(() => requestAnimationFrame(gameLoop), _loopInterval); // 1000ms delay
         }
       }
 
-      // If the user double-clicks, toggle the game loop
-      Canvas.addEventListener("dblclick", (event) => {
+      function ToggleRunning()
+      {
         _isRunning = !_isRunning;
         if (_isRunning) {
           // Start the game loop
           gameLoop();
         }
-      });
-
-      // If the user single-clicks, toggle the state of the cell
-      // but only if the game loop is not running
-      Canvas.addEventListener("click", (event) => {
-        if (_isRunning) return;
-
-        const cellWidth = Canvas.width / COLUMNS;
-        const cellHeight = Canvas.height / ROWS;
-        const x = Math.floor(event.offsetX / cellWidth);
-        const y = Math.floor(event.offsetY / cellHeight);
-        _grid[x][y] = !_grid[x][y];
-        drawGrid(_grid);
-      });
-
-      // If the user hits the up arrow, increase the speed of the game loop by 100ms
-      // If the user hits the down arrow, decrease the speed of the game loop by 100ms
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowUp") {
-          _loopInterval -= 100;
-          _loopInterval = Math.max(_loopInterval, 0);
-        } else if (event.key === "ArrowDown") {
-          _loopInterval += 100;
-          _loopInterval = Math.min(_loopInterval, 2000);
-        }
-      });
+      }
 
       // Initialize and draw the grid
       initializeGrid();

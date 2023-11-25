@@ -10,7 +10,11 @@
     </style>
   </head>
   <body>
+    <button id="next" onclick="AdvanceGeneration();">Next Generation</button>
+    <br>
+    
     <canvas id="canvas" width="800" height="800"></canvas>
+    
     <script>
       // Get the canvas element and context
       const Canvas = document.getElementById("canvas");
@@ -19,6 +23,7 @@
       const ROWS = 100;
 
       let _grid = [];
+      let _loopInterval = 1000;
 
       function initializeGrid() {
         for (let x = 0; x < COLUMNS; x++) {
@@ -65,65 +70,68 @@
         }
       }
 
+      // Count the number of live neighbours around a given grid cell
+      function countNeighbors(x, y) {
+        let neighbours = 0;
+        // Clockwise, starting from the top left corner
+        neighbours += _grid[x - 1] && _grid[x - 1][y - 1] ? 1 : 0; // NW
+        neighbours += _grid[x] && _grid[x][y - 1] ? 1 : 0; // N
+        neighbours += _grid[x + 1] && _grid[x + 1][y - 1] ? 1 : 0; //NE
+        neighbours += _grid[x + 1] && _grid[x + 1][y] ? 1 : 0; // E
+        neighbours += _grid[x + 1] && _grid[x + 1][y + 1] ? 1 : 0; // SE
+        neighbours += _grid[x] && _grid[x][y + 1] ? 1 : 0; // S
+        neighbours += _grid[x - 1] && _grid[x - 1][y + 1] ? 1 : 0; // SW
+        neighbours += _grid[x - 1] && _grid[x - 1][y] ? 1 : 0; // W
+        return neighbours;
+      }
+
+      // Calculate the next generation of cells
+      function calculateNextState(x, y) {
+        let neighbours = countNeighbors(x, y);
+
+        // Conway's Game of Life - Rules
+        // Any live cell with fewer than two live neighbors dies.
+        // Any live cell with two or three live neighbors lives on.
+        // Any live cell with more than three live neighbors dies.
+        // Any dead cell with exactly three live neighbors becomes a live cell.
+        if (neighbours === 3) return true;
+        else if (neighbours === 2) return _grid[x][y];
+        else return false;
+      }
+
+      function nextGeneration() {
+        // Create a new grid to hold the cell states of the next generation
+        const newGrid = [];
+        // For each cell in the new grid, figure out what its value should be
+        // based on the existing grid.
+        for (let x = 0; x < COLUMNS; x++) {
+          newGrid[x] = [];
+          for (let y = 0; y < ROWS; y++) {
+            newGrid[x][y] = calculateNextState(x, y);
+          }
+        }
+
+        return newGrid;
+      }
+
+      // Advance the generation one time
+      function AdvanceGeneration() {
+        _grid = nextGeneration();
+        drawGrid(_grid);
+      }
+
       // If the user single-clicks, toggle the state of the cell
       // but only if the game loop is not running
       Canvas.addEventListener("click", (event) => {
+        if (_isRunning) return;
 
         const cellWidth = Canvas.width / COLUMNS;
         const cellHeight = Canvas.height / ROWS;
         const x = Math.floor(event.offsetX / cellWidth);
         const y = Math.floor(event.offsetY / cellHeight);
         _grid[x][y] = !_grid[x][y];
-        drawGrid();
+        drawGrid(_grid);
       });
-
-      function calculateNextCellState(x, y)
-      {
-        // Count the neighbors
-        let neighbors = 0;
-        // [WRITE CODE HERE TO COUNT THE LIVING NEIGHBORS]
-
-        // Apply the rules to set "alive" to true or false
-        // based on the number of live neighbors
-        let alive = false;
-        // [WRITE CODE HERE TO APPLY THE RULES]
-
-        return alive;
-      }
-
-      function calculateNextGeneration() {
-
-        // Create a new grid
-        let newGrid = [];
-
-        for (let x = 0; x < COLUMNS; x++) {
-          for (let y = 0; y < ROWS; y++) {
-            if (_grid[x][y]) {
-              // Count the neighbors
-
-              // Set the new grid location to true or false
-              // based on the number of live neighbors in 
-              // the old grid
-              let newValue = calculateNextCellState(x, y);
-
-              newGrid[x][y] = newValue;
-            }
-          }
-        }
-
-        // Replace _grid with the next generation
-        _grid = newGrid;
-      }
-
-      let _isRunning = false;
-      function gameLoop()
-      {
-        while(_isRunning) {
-
-          calculateNextGeneration();
-          drawGrid();
-        }
-      }
 
       // Initialize and draw the grid
       initializeGrid();
