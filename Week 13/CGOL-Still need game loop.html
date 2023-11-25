@@ -10,12 +10,6 @@
     </style>
   </head>
   <body>
-    <button id="next" onclick="AdvanceGeneration();">Next Generation</button>
-    <button id="toggle" onclick="ToggleRunning();">Toggle Game Loop</button>
-    <button id="slowDown" onclick="SlowDown();">Slower</button>
-    <button id="speedUp" onclick="SpeedUp();">Faster</button>
-    
-    <br>
     <canvas id="canvas" width="800" height="800"></canvas>
     <script>
       // Get the canvas element and context
@@ -126,30 +120,21 @@
         drawGrid(_grid);
       });
 
-      // Advance the generation one time
-      function AdvanceGeneration() {
-        _grid = nextGeneration();
-        drawGrid(_grid);
-      }
-
       function gameLoop() {
         if (_isRunning) {
-          AdvanceGeneration();
+          _grid = nextGeneration();
+          drawGrid(_grid);
           setTimeout(() => requestAnimationFrame(gameLoop), _loopInterval); // 1000ms delay
         }
       }
 
-      function ToggleRunning()
-      {
+      // If the user double-clicks, toggle the game loop
+      Canvas.addEventListener("dblclick", (event) => {
         _isRunning = !_isRunning;
         if (_isRunning) {
           // Start the game loop
           gameLoop();
         }
-      }
-      // If the user double-clicks, toggle the game loop
-      Canvas.addEventListener("dblclick", (event) => {
-        ToggleRunning();
       });
 
       // If the user single-clicks, toggle the state of the cell
@@ -165,25 +150,15 @@
         drawGrid(_grid);
       });
 
-      function SlowDown()
-      {
-        _loopInterval += 100;
-        _loopInterval = Math.min(_loopInterval, 2000);
-      }
-
-      function SpeedUp()
-      {
-        _loopInterval -= 100;
-        _loopInterval = Math.max(_loopInterval, 0);
-      }
-
       // If the user hits the up arrow, increase the speed of the game loop by 100ms
       // If the user hits the down arrow, decrease the speed of the game loop by 100ms
       document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowUp") {
-          SpeedUp();
+          _loopInterval -= 100;
+          _loopInterval = Math.max(_loopInterval, 0);
         } else if (event.key === "ArrowDown") {
-          SlowDown();
+          _loopInterval += 100;
+          _loopInterval = Math.min(_loopInterval, 2000);
         }
       });
 

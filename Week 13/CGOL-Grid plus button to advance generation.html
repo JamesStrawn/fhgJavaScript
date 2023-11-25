@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game of Life</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+        background-color: rgb(153, 160, 207);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+      // Get the canvas element and context
+      const Canvas = document.getElementById("canvas");
+      const Context = Canvas.getContext("2d");
+      const COLUMNS = 100;
+      const ROWS = 100;
+
+      let _grid = [];
+
+      function initializeGrid() {
+        for (let x = 0; x < COLUMNS; x++) {
+          _grid[x] = [];
+          for (let y = 0; y < ROWS; y++) {
+            _grid[x][y] = Math.random() < 0.5 ? false : true;
+          }
+        }
+      }
+
+      function drawCell(x, y, alive) {
+        const cellWidth = Canvas.width / COLUMNS;
+        const cellHeight = Canvas.height / ROWS;
+
+        Context.fillStyle = alive ? "black" : "white";
+        Context.beginPath();
+        Context.arc(
+          x * cellWidth + cellWidth / 2,
+          y * cellHeight + cellHeight / 2,
+          cellWidth / 2,
+          0,
+          2 * Math.PI
+        );
+        Context.fill();
+      }
+
+      // Use Canvas to draw each cell, white for on, black for off
+      function drawGrid() {
+        // Clear the canvas
+        Context.clearRect(0, 0, Canvas.width, Canvas.height);
+
+        // Draw the cells
+        const cellWidth = Canvas.width / COLUMNS;
+        const cellHeight = Canvas.height / ROWS;
+        for (let x = 0; x < COLUMNS; x++) {
+          for (let y = 0; y < ROWS; y++) {
+            // Since we cleared the rect, we only need to draw the live cells
+            if (_grid[x][y]) {
+              // draw a black oval at the center of the cell that is proportionate
+              // to the canvas size
+              drawCell(x, y, true);
+            }
+          }
+        }
+      }
+
+      // If the user single-clicks, toggle the state of the cell
+      // but only if the game loop is not running
+      Canvas.addEventListener("click", (event) => {
+
+        const cellWidth = Canvas.width / COLUMNS;
+        const cellHeight = Canvas.height / ROWS;
+        const x = Math.floor(event.offsetX / cellWidth);
+        const y = Math.floor(event.offsetY / cellHeight);
+        _grid[x][y] = !_grid[x][y];
+        drawGrid();
+      });
+
+      function calculateNextCellState(x, y)
+      {
+        // Count the neighbors
+        let neighbors = 0;
+        // [WRITE CODE HERE TO COUNT THE LIVING NEIGHBORS]
+
+        // Apply the rules to set "alive" to true or false
+        // based on the number of live neighbors
+        let alive = false;
+        // [WRITE CODE HERE TO APPLY THE RULES]
+
+        return alive;
+      }
+
+      function calculateNextGeneration() {
+
+        // Create a new grid
+        let newGrid = [];
+
+        for (let x = 0; x < COLUMNS; x++) {
+          for (let y = 0; y < ROWS; y++) {
+            if (_grid[x][y]) {
+              // Count the neighbors
+
+              // Set the new grid location to true or false
+              // based on the number of live neighbors in 
+              // the old grid
+              let newValue = calculateNextCellState(x, y);
+
+              newGrid[x][y] = newValue;
+            }
+          }
+        }
+
+        // Replace _grid with the next generation
+        _grid = newGrid;
+      }
+
+      let _isRunning = false;
+      function gameLoop()
+      {
+        while(_isRunning) {
+
+          calculateNextGeneration();
+          drawGrid();
+        }
+      }
+
+      // Initialize and draw the grid
+      initializeGrid();
+      drawGrid();
+    </script>
+  </body>
+</html>
